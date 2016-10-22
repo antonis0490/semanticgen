@@ -1,12 +1,11 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
+from . import views
 
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'semanticgen.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^generator/', include('generator.urls')),
+    url(r'^$', views.index, name='index'),
 
                        )

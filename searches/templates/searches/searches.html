@@ -2,7 +2,8 @@
 
 {% block content%}
 <h1>Previeous Searches</h1>
-
+<!--TODO
+Create URL that will get to each search-->
  {% for s in object_list%}
     <p>{{s.date|date:"YYYY-mm-dd"}}<a href="/searches/{{s.id}}">{{s.url}}</a></p>
  {% endfor %}

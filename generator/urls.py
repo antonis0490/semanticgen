@@ -1,7 +1,5 @@
 from django.conf.urls import url
-
-from . import views
-
+from generator.views import generatorFun
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$',generatorFun.as_view()),
 ]

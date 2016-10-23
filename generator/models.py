@@ -1,8 +1,4 @@
 from django.db import models
-import random
-
-def code_generator(size=6, chars="abcdefghiklmnopqrstuvwuxz"):
-    return ''.join(random.choice(chars) for i in range(size))
 
 
 class generator(models.Model):
@@ -17,6 +13,3 @@ class generator(models.Model):
     def __unicode__(self):
         return str(self.url)
 
-    def save(self, *args, **kwargs):
-        sentiments = code_generator()
-        super(generator, self).save(*args, **kwargs)

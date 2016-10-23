@@ -1,10 +1,39 @@
 {% extends "generator/header.html" %}
 
 {% block content%}
+<script>
+    $(document).ready(function() {
+    $('#oldSearches').DataTable();
+} );
+</script>
 <h1>Previeous Searches</h1>
-<!--TODO
-Create URL that will get to each search-->
- {% for s in object_list%}
-    <p>{{s.date|date:"YYYY-mm-dd"}}<a href="/searches/{{s.id}}">{{s.url}}</a></p>
- {% endfor %}
+<table id="oldSearches" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Sentiments</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>URL</th>
+                <th>Sentiments</th>
+                <th>Date</th>
+            </tr>
+        </tfoot>
+        <tbody>
+             {% for s in object_list%}
+                <tr>
+                    <td>{{s.url}}</td>
+                    <td>{{s.sentiments}} </td>
+                    <td>{{s.date}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
 {% endblock %}

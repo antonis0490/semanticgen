@@ -5,6 +5,10 @@ from .form import submitURL
 import json
 from watson_developer_cloud import AlchemyLanguageV1
 import unicodedata
+import datetime
+
+from .models import generator
+
 
 def cleanText(data):
     # u = unicode(data, "utf-8"
@@ -16,6 +20,11 @@ def cleanText(data):
     	return "InvalidCharsName"
 
     return out
+
+def addToDB(url,sentiment):
+    now = datetime.datetime.now()
+    generator.objects.create(url=url, sentiments=str(sentiment),date=now)
+
 
 class generatorFun(View):
     def get(self, request, *args, **kwargs):
@@ -68,6 +77,7 @@ class generatorFun(View):
         else:
             sentimentList = []
 
+        addToDB(url,str(sentimentList))
         context = {"title": "Submit URL",
                    "form": form,
                    "sentimentList": sentimentList}

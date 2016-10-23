@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import searches_sentiments
+
+
+admin.site.register(searches_sentiments)

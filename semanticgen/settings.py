@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     #custom apps
     'generator',
     'searches',
+    'semanticgen',
     ####
     'django.contrib.admin',
     'django.contrib.auth',
@@ -73,7 +74,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Athens'
 
 USE_I18N = True
 

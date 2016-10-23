@@ -6,6 +6,7 @@ class searches_sentiments(models.Model):
     sentiments = models.TextField()
     date       = models.DateTimeField()
 
+
     def __str__(self):
         return str(self.url)
 

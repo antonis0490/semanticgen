@@ -10,6 +10,7 @@ def cleanText(data):
     # u = unicode(data, "utf-8"
     out = ''.join((c for c in unicodedata.normalize('NFD', data) if unicodedata.category(c) != 'Mn'))
     try:
+        out = out.replace("\n", " ")
         return str(out)
     except UnicodeEncodeError:
     	return "InvalidCharsName"

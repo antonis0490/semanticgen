@@ -1,0 +1,7 @@
+{
+  "name": "hashtag generator",
+  "description": "An app where it export a hashtag list for a given url",
+  "repository": "https://github.com/antonis0490/semanticgen.git",
+  "keywords": ["python", "django" ],
+  "addons": [ "heroku-postgresql" ]
+}

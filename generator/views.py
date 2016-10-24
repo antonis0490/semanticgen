@@ -4,6 +4,8 @@ from django.views.generic import View
 from .form import submitURL
 import json
 from watson_developer_cloud import AlchemyLanguageV1
+from django.contrib.staticfiles.templatetags.staticfiles import static
+
 import unicodedata
 import datetime
 import os, urllib, sys
@@ -98,14 +100,14 @@ def Customgen(url):
     temp5 = list(set(temp4))
 
     #remove non english words
-    for word in temp5:
-        with open("/usr/share/dict/british-english") as dictionary:
-            english_vocab = set(word.strip().lower() for word in dictionary)
-
-        if word.lower() in english_vocab:
-            temp6.append(word)
-
-    return temp6
+    # for word in temp5:
+    #
+    #     with open(dictionary) as dictionary:
+    #         english_vocab = set(word.strip().lower() for word in dictionary)
+    #
+    #     if word.lower() in english_vocab:
+    #         temp6.append(word)
+    return temp5
 
 
 class generatorFun(View):

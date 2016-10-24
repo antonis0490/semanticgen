@@ -8,7 +8,7 @@ import unicodedata
 import datetime
 import os, urllib, sys
 import re
-import enchant
+# import enchant
 from .models import generator
 
 

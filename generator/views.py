@@ -60,7 +60,7 @@ def APIgen(url):
 
 def Customgen(url):
 
-    cmd = os.popen("lynx -dump %s" % url)
+    cmd = os.popen("elinks -dump %s" % url)
     output = cmd.read()
     cmd.close()
 

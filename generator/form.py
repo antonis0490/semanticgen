@@ -12,7 +12,9 @@ def urlValidator(value):
     return value
 
 class submitURL(forms.Form):
-    url = forms.CharField(label="Enter URL here", validators=[urlValidator])
+    CHOICES = (('API', 'API'),('Custom', 'Custom'),)
+    apiselector = forms.ChoiceField(label="Select generator",choices=CHOICES, widget=forms.Select(attrs={'class':'form-control'}))
+    url = forms.CharField(label="Enter URL here", validators=[urlValidator], widget=forms.TextInput(attrs={'class':'form-control'}))
 
 
 

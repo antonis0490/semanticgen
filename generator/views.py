@@ -56,6 +56,58 @@ def APIgen(url):
                     sentimentList.append("#" + cleanText(keyword["text"]))
         return sentimentList
 
+def Customgen(url):
+
+    cmd = os.popen("lynx -dump %s" % url)
+    output = cmd.read()
+    cmd.close()
+
+    output = output.split("\n")
+
+    temp =  []  # save temporary data
+    temp3 = []  # save temporary data
+    temp4 = []  # save temporary data
+    temp6 = []  # save temporary data
+    for line in output:
+        line = line.strip()  # remove spaces from start and end of line
+
+        exploded = line.split()  # remove spaces from inbetween the line
+
+        if len(exploded) > 1:  # if space detected save each element in temp array
+            for e in exploded:
+                temp.append(e)
+        else:
+            temp.append(exploded)
+    temp2 = temp
+
+    for word in temp2:
+        stopwords = ["a", "more", "less", "from", "all", "under", "all", "to", "an", "and", "the", "at", "or", "is",
+                     "has", "in", "the", "isnt", "he", "she", "it", "they", "we", "by", "on", "out", "before", "after",
+                     "later"]
+        regex = re.compile('[^a-zA-Z]')
+        word = regex.sub('', str(word))
+        if word.lower() not in stopwords:
+            if len(word) > 1:  # if word has more than 1 letter
+                temp3.append(word)
+
+    for word in temp3:
+        if not word.startswith("http"):  # remove links
+            temp4.append(word)
+
+    #remove duplications
+    temp5 = list(set(temp4))
+
+    #remove non english words
+    for word in temp5:
+        with open("/usr/share/dict/british-english") as dictionary:
+            english_vocab = set(word.strip().lower() for word in dictionary)
+
+        if word.lower() in english_vocab:
+            temp6.append(word)
+
+    return temp6
+
+
 class generatorFun(View):
     def get(self, request, *args, **kwargs):
         theform = submitURL()
@@ -65,9 +117,6 @@ class generatorFun(View):
 
 
     def post(self, request, *args, **kwargs):
-        # print(request.POST)
-        # x = request.POST.get("url", "")
-        # print x
 
         form = submitURL(request.POST)
         if form.is_valid():
@@ -82,8 +131,7 @@ class generatorFun(View):
             if apiselector == "API":
                 sentimentList = APIgen(url)
             elif apiselector == "Custom":
-                #TODO
-                x=4
+                sentimentList = Customgen(url)
         else:
             sentimentList = []
 

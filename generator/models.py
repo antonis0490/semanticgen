@@ -1,6 +1,6 @@
 from django.db import models
 
-
+# Main table to save searches and hashes generated
 class generator(models.Model):
 
     url = models.TextField(max_length=240)

@@ -1,3 +1,5 @@
+<!--Main front end functionality of the website imlemented here-->
+
 {% extends "generator/header.html" %}
 
 
@@ -5,16 +7,17 @@
 <h1>{{title}}</h1>
 <form action="." method="POST"> {% csrf_token %}
     <div class="form-group">
-
+        <!--form initiated under form.py-->
         {{form.as_p}}
 
     </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Fetch...</button>
+      <button type="submit" id="genSub" name="genSub" class="btn btn-primary ">Fetch...</button>
     </div>
 </form>
 
+<!--Capture errors and show appropriate message-->
 {% if error != "OK" %}
     {% if error == "ERROR1" %}
         <div class="alert alert-danger" role="alert">
@@ -34,20 +37,23 @@
         </div>
     {% elif error == "ERROR5" %}
         <div class="alert alert-warning" role="alert">
-          <strong>URL Error!</strong> Please ensure that you have entered a valid URL.
+          <strong>URL Error!</strong> Please ensure that you have entered a valid URL (include http://)
         </div>
     {% else %}
-        <br></br>
+            <div class="alert alert-warning" role="alert">
+          <strong>Oops!</strong> Something went wrong, please note that only english websites are supported.
+        </div>
     {% endif %}
 
 {% else %}
-
-    <div id = "senList" class="col-sm-10">
-        {% for s in sentimentList %}
-         <span class="label label-success">{{s}}</span>
-    {% endfor %}
-        </div>
+        <!--Iterate in list and present hashtags-->
+        <div id = "senList" class="col-sm-10">
+            {% for s in sentimentList %}
+             <span class="label label-success">{{s}}</span>
+        {% endfor %}
+            </div>
 {% endif %}
+
 
 
 {% endblock %}

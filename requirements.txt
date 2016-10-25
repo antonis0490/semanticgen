@@ -6,4 +6,3 @@ psycopg2==2.6.1
 whitenoise==2.0.6
 watson-developer-cloud
 bs4
-unicodedata

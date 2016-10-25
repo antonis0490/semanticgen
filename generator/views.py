@@ -7,7 +7,6 @@ from watson_developer_cloud import AlchemyLanguageV1
 import re
 import urllib
 from bs4 import BeautifulSoup
-import unicodedata
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
 import unicodedata

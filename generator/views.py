@@ -4,6 +4,10 @@ from django.views.generic import View
 from .form import submitURL
 import json
 from watson_developer_cloud import AlchemyLanguageV1
+import re
+import urllib
+from bs4 import BeautifulSoup
+import unicodedata
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
 import unicodedata
@@ -58,57 +62,81 @@ def APIgen(url):
                     sentimentList.append("#" + cleanText(keyword["text"]))
         return sentimentList
 
+# def Customgen(url):
+#
+#     cmd = os.popen("elinks -dump %s" % url)
+#     output = cmd.read()
+#     cmd.close()
+#
+#     output = output.split("\n")
+#
+#     temp =  []  # save temporary data
+#     temp3 = []  # save temporary data
+#     temp4 = []  # save temporary data
+#     temp6 = []  # save temporary data
+#     for line in output:
+#         line = line.strip()  # remove spaces from start and end of line
+#
+#         exploded = line.split()  # remove spaces from inbetween the line
+#
+#         if len(exploded) > 1:  # if space detected save each element in temp array
+#             for e in exploded:
+#                 temp.append(e)
+#         else:
+#             temp.append(exploded)
+#     temp2 = temp
+#
+#     for word in temp2:
+#         stopwords = ["a", "more", "less", "from", "all", "under", "all", "to", "an", "and", "the", "at", "or", "is",
+#                      "has", "in", "the", "isnt", "he", "she", "it", "they", "we", "by", "on", "out", "before", "after",
+#                      "later"]
+#         regex = re.compile('[^a-zA-Z]')
+#         word = regex.sub('', str(word))
+#         if word.lower() not in stopwords:
+#             if len(word) > 1:  # if word has more than 1 letter
+#                 temp3.append(word)
+#
+#     for word in temp3:
+#         if not word.startswith("http"):  # remove links
+#             temp4.append(word)
+#
+#     #remove duplications
+#     temp5 = list(set(temp4))
+#
+#     #remove non english words
+#     # for word in temp5:
+#     #
+#     #     with open(dictionary) as dictionary:
+#     #         english_vocab = set(word.strip().lower() for word in dictionary)
+#     #
+#     #     if word.lower() in english_vocab:
+#     #         temp6.append(word)
+#     return temp5
+
 def Customgen(url):
+    html = urllib.urlopen(url)
+    soup = BeautifulSoup(html)
+    data = soup.findAll(text=True)
 
-    cmd = os.popen("elinks -dump %s" % url)
-    output = cmd.read()
-    cmd.close()
+    output = []
 
-    output = output.split("\n")
+    def visible(element):
+        if element.parent.name in ['style', 'script', '[document]', 'head', 'title']:
+            return False
+        elif re.match('<!--.*-->', str(element.encode('utf-8'))):
+            element = unicodedata.normalize('NFKD', result).encode('ascii', 'ignore')
+            return False
 
-    temp =  []  # save temporary data
-    temp3 = []  # save temporary data
-    temp4 = []  # save temporary data
-    temp6 = []  # save temporary data
-    for line in output:
-        line = line.strip()  # remove spaces from start and end of line
+        return True
 
-        exploded = line.split()  # remove spaces from inbetween the line
+    result = filter(visible, data)
 
-        if len(exploded) > 1:  # if space detected save each element in temp array
-            for e in exploded:
-                temp.append(e)
-        else:
-            temp.append(exploded)
-    temp2 = temp
+    for r in result:
+        element = unicodedata.normalize('NFKD', r).encode('ascii', 'ignore')
+        if element not in (" ", ""):
+            output.append(element)
 
-    for word in temp2:
-        stopwords = ["a", "more", "less", "from", "all", "under", "all", "to", "an", "and", "the", "at", "or", "is",
-                     "has", "in", "the", "isnt", "he", "she", "it", "they", "we", "by", "on", "out", "before", "after",
-                     "later"]
-        regex = re.compile('[^a-zA-Z]')
-        word = regex.sub('', str(word))
-        if word.lower() not in stopwords:
-            if len(word) > 1:  # if word has more than 1 letter
-                temp3.append(word)
-
-    for word in temp3:
-        if not word.startswith("http"):  # remove links
-            temp4.append(word)
-
-    #remove duplications
-    temp5 = list(set(temp4))
-
-    #remove non english words
-    # for word in temp5:
-    #
-    #     with open(dictionary) as dictionary:
-    #         english_vocab = set(word.strip().lower() for word in dictionary)
-    #
-    #     if word.lower() in english_vocab:
-    #         temp6.append(word)
-    return temp5
-
+    return output
 
 class generatorFun(View):
     def get(self, request, *args, **kwargs):

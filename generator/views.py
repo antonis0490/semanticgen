@@ -176,7 +176,7 @@ def Customgenv2(url):
     # or unnecessary words(stopwords)
     # print temp3
     for word in temp3:
-        stopwords = ["a","our","be", "you", "does", "as", "such", "not", "are", "jd", "of", "more", "less", "from", "all", "under",
+        stopwords = ["a","javascript","our","be", "you", "does", "as", "such", "not", "are", "jd", "of", "more", "less", "from", "all", "under",
                      "all", "to", "an", "and", "the", "at", "or", "is", "has", "in", "the", "isnt", "he", "she", "it",
                      "they", "we", "by", "on", "out", "before", "after", "later", "ie"]
         if str(word).isalpha():
